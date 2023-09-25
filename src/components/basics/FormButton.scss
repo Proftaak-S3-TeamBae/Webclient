@@ -1,0 +1,33 @@
+.form .form-button {
+    appearance: none;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: transparent;
+    color: royalblue;
+    cursor: pointer;
+
+    // Filled theme
+    &.filled {
+        color: white;
+        background-color: royalblue;
+
+        &:hover {
+            background-color: #3d62d1;
+            color: white;
+        }
+
+        &:active {
+            background-color: #3658be;
+            color: white;
+        }
+    }
+
+    &:hover {
+        color: #3d62d1;
+    }
+
+    &:active {
+        color: #3658be;
+    }
+}

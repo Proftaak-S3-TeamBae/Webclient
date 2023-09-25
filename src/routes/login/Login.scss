@@ -1,0 +1,20 @@
+.page.login {
+    .dual-pane {
+        >.left {
+            width: 380px;
+            padding: 2em;
+        }
+
+        >.right {
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    }
+
+    .page-title {
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+        margin: 1em 0;
+    }
+}

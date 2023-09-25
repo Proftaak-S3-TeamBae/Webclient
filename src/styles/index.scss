@@ -1,0 +1,24 @@
+@use "./normalize.scss";
+
+// Reference unreferenced scss files
+@use "../components/main/DualPane.scss";
+
+// Global variables
+body {
+    // Theme colors
+    color: black;
+    background-color: #FFFFFF;
+
+    // Other stuff
+    font-family: 'Open Sans', sans-serif;
+}
+
+// Size everything to 100%
+html,
+body,
+body>div,
+.app,
+main,
+.page {
+    height: 100%;
+}

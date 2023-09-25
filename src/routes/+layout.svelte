@@ -1,11 +1,9 @@
 <script lang="ts">
-	import Header from "./Header.svelte";
-	import "./styles.css";
+	import "../styles/index.scss";
+	import Header from "../components/home/Header.svelte";
 </script>
 
 <div class="app">
-	<Header />
-
 	<main>
 		<slot />
 	</main>

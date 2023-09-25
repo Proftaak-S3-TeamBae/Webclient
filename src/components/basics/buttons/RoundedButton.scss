@@ -1,0 +1,37 @@
+.rounded-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    text-align: center;
+    width: 100px;
+    height: 20px;
+    cursor: pointer;
+    user-select: none;
+
+    >a {
+        text-decoration: none;
+        color: white;
+
+        &:visited {
+            color: white;
+        }
+    }
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    &:active {
+        opacity: 0.8;
+    }
+
+    &.filled {
+        background-color: #fff;
+        color: #000;
+    }
+
+    &.outlined {
+        border: 1px solid #fff;
+        color: #fff;
+    }
+}

@@ -1,0 +1,26 @@
+.header {
+    z-index: 2;
+    position: relative;
+    background-color: #000;
+    height: 50px;
+    // Centre the content vertically
+    display: table;
+    width: 100%;
+    padding: .5rem 0;
+}
+
+.header-contents {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.header-title {
+    position: fixed;
+    padding: .2rem 1rem;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    float: left;
+}

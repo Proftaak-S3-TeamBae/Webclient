@@ -1,0 +1,20 @@
+.form .field {
+    margin-bottom: 1em;
+
+    .label {
+        color: gray;
+        margin-bottom: 0.25rem;
+    }
+
+    input {
+        appearance: none;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        padding: 11px;
+        box-sizing: border-box;
+        width: 100%;
+        outline: 0;
+        background-color: #D9D9D9;
+    }
+}
