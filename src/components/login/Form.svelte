@@ -9,12 +9,16 @@
     <Field label="Password" type="password" name="password" />
 
     <div class="buttons">
-        <FormButton label="Log In" filled={true} onClick={() => void 0} />
+        <FormButton
+            label="Log In"
+            filled={true}
+            onClick={() => (window.location.href = "/list")}
+        />
 
         <FormButton
             label="Create Account"
             filled={false}
-            onClick={() => void 0}
+            onClick={() => (window.location.href = "/register")}
         />
     </div>
 </div>

@@ -1,0 +1,65 @@
+.nav-bar {
+    background-color: black;
+    color: white;
+    display: flex;
+    font-size: 14px;
+
+    // program title
+    .title {
+        font-weight: bold;
+        font-size: 20px;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 0.5em;
+    }
+
+    // Links container
+    .links {
+        flex: 1;
+        text-align: right;
+        display: flex;
+        justify-content: right;
+
+        a {
+            display: inline-block;
+            margin-top: auto;
+            margin-bottom: auto;
+            color: white;
+            margin-right: 1em;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    // User box
+    .user-box {
+        padding: 10px;
+        cursor: pointer;
+
+        .name {
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .avatar {
+            height: 32px;
+            width: 32px;
+            background-color: aqua;
+            border-radius: 100%;
+            vertical-align: middle;
+            display: inline-block;
+            margin-right: 0.25rem;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        &:hover {
+            background-color: white;
+            color: black;
+        }
+    }
+}

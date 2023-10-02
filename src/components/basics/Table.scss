@@ -1,0 +1,14 @@
+.ui-table {
+    .row {
+        display: flex;
+
+        >* {
+            flex: 1;
+        }
+
+        &.hdr {
+            background-color: black;
+            color: white;
+        }
+    }
+}

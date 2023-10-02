@@ -33,7 +33,9 @@
 			vestibulum. Diam quam nulla porttitor massa id neque aliquam
 			vestibulum. Eu sem integer vitae justo eget.
 		</p>
-		<RoundedButton fill="outlined" href="/login">Login</RoundedButton>
+		<RoundedButton style="light" fill="filled" href="/login"
+			>Get Started</RoundedButton
+		>
 	</div>
 </section>
 
