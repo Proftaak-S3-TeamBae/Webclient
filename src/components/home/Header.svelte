@@ -7,6 +7,6 @@
     <div class="header-contents">
         <div class="header-title">AI Scanner</div>
         <RoundedButton fill="outlined" href="/login">Login</RoundedButton>
-        <RoundedButton fill="filled" href="/">Sign up</RoundedButton>
+        <RoundedButton fill="filled" href="/register">Sign up</RoundedButton>
     </div>
 </div>

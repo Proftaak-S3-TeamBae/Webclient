@@ -4,11 +4,43 @@
 
         >* {
             flex: 1;
+            padding: 5px;
         }
 
         &.hdr {
             background-color: black;
             color: white;
+        }
+
+        &.odd {
+            background-color: #eee;
+        }
+
+        &.even {
+            background-color: #fff;
+        }
+    }
+
+    .col {
+        display: flex;
+
+        .label {
+            vertical-align: middle;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .icon {
+            display: inline-block;
+            margin-top: auto;
+            margin-bottom: auto;
+            margin-right: 0.5rem;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            border-radius: 8px;
+            height: 32px;
+            width: 32px;
         }
     }
 }

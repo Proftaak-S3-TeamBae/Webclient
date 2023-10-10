@@ -7,6 +7,7 @@
     <div class="title">AI Scanner</div>
     <div class="links">
         <a href="/list">My Services</a>
+        <a href="/integrations">Integrations</a>
         <a href="/settings">Settings</a>
     </div>
     <div class="user-box">
