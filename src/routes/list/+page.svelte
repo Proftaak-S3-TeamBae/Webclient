@@ -1,4 +1,5 @@
 <script>
+    import { friendlyDate } from "../../util/DateFormatter";
     import ContentContainer from "../../components/basics/ContentContainer.svelte";
     import Table from "../../components/basics/Table.svelte";
     import NavBar from "../../components/layout/NavBar.svelte";
@@ -6,6 +7,10 @@
     import googleLogo from "$lib/images/integrations/google.svg";
     import awsLogo from "$lib/images/integrations/aws.svg";
     import "./List.scss";
+    import ToolBarItem from "../../components/basics/ToolBarItem.svelte";
+    import ToolBarSpacer from "../../components/basics/ToolBarSpacer.svelte";
+    import ToolBar from "../../components/basics/ToolBar.svelte";
+    import WizardButton from "../../components/basics/buttons/WizardButton.svelte";
 
     // The data for the table
     // TODO: Replace with real data from the backend
@@ -15,19 +20,19 @@
             { data: "OpenAPI GPT-3", icon: openaiLogo },
             { data: "LLM" },
             { data: "Customer Service" },
-            { data: new Date() },
+            { data: friendlyDate(new Date()) },
         ],
         [
             { data: "Google Bard", icon: googleLogo },
             { data: "LLM" },
             { data: "AI ChatBot" },
-            { data: new Date() },
+            { data: friendlyDate(new Date()) },
         ],
         [
             { data: "Stable Diffusion", icon: awsLogo },
             { data: "Diffusion Model" },
             { data: "Icon Generation" },
-            { data: new Date() },
+            { data: friendlyDate(new Date()) },
         ],
     ];
 </script>
@@ -41,6 +46,19 @@
     <NavBar />
     <ContentContainer>
         <h3>My Services</h3>
-        <Table {headers} {data} />
+        <p>
+            Here you can view all of your active AI services and their purpose.
+        </p>
+        <ToolBar>
+            <ToolBarSpacer/>
+            <ToolBarItem icon="edit" label="Edit" disabled={true}/>
+            <ToolBarItem icon="delete" label="Remove" disabled={true}/>
+        </ToolBar>
+        <Table addCheckBoxes={true} {headers} {data} />
+        <div class="button-group">
+            <WizardButton color="primary"
+                >Register Service</WizardButton
+            >
+        </div>
     </ContentContainer>
 </div>

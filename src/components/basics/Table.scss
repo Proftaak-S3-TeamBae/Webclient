@@ -1,4 +1,16 @@
 .ui-table {
+    // Checkboxes
+    .cbox-cell {
+        width: 20px;
+        flex: 0 !important;
+        display: flex;
+        
+        .ui-checkbox {
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+    }
+
     .row {
         display: flex;
 

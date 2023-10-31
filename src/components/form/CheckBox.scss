@@ -1,0 +1,21 @@
+.ui-checkbox {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    background-color: #b9b9b9;
+    cursor: pointer;
+
+    &.inverted {
+        background-color: white;
+    }
+
+    &.checked {
+        &::after {
+            content: ' ';
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABdSURBVDhPY/z//z8DJYAJSpMNKDaAAeQFGAYCHyB+DRLGgUFyPih6UDj4NcPwa2Q9KIHIyMiI4OABQD2MUOYgCMRhaMAbKI0PoKpBjlMgCAFiQgkpBFnPkM9MDAwAfdNfX2Y7oUkAAAAASUVORK5CYII=');
+            height: 16px;
+            width: 16px;
+            display: block;
+        }
+    }
+}

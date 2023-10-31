@@ -1,8 +1,10 @@
 .nav-bar {
+    position: relative;
     background-color: black;
     color: white;
     display: flex;
     font-size: 14px;
+    z-index: 100;
 
     // program title
     .title {

@@ -1,5 +1,7 @@
-.form .field {
+.field {
     margin-bottom: 1em;
+    vertical-align: middle;
+    display: table-cell;
 
     .label {
         color: gray;
@@ -16,6 +18,7 @@
         width: 100%;
         outline: 0;
         background-color: #D9D9D9;
+        min-width: 280px;
     }
 
     svg {

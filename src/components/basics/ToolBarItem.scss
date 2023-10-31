@@ -1,0 +1,14 @@
+.toolbar >.item {
+    padding: 8px;
+    cursor: pointer;
+    
+    >.name, >.icon {
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    &.disabled {
+        color: lightgray;
+        cursor: not-allowed;
+    }
+}

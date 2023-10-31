@@ -1,0 +1,72 @@
+.overlay {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    // Centre the content vertically and below the header
+    display: table;
+    width: 100%;
+    height: 100%;
+    // padding: .5rem 0;
+    // margin-top: 50px;
+
+    .content-container {
+        margin: auto;
+        width: 440px;
+    }
+
+    .hr {
+        border: 0;
+        padding-top: 1rem;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    }
+
+    .box {
+
+        .header-bk {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            display: table;
+            background-color: #000000;
+            padding: 10px 15px;
+            box-sizing: border-box;
+            width: 100%;
+
+            .name {
+                display: inline-table;
+                vertical-align: middle;
+                font-size: px;
+                font-weight: 600;
+                color: #ffffff;
+                margin: 0;
+            }
+
+            .close-icon {
+                float: right;
+                display: inline-table;
+                vertical-align: middle;
+                cursor: pointer;
+                height: 20px;
+                width: 20px;
+            }
+        }
+
+        .content {
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 15px;
+            box-sizing: border-box;
+            display: block;
+            position: relative;
+            background-color: #ffffff;
+        }
+    }
+}

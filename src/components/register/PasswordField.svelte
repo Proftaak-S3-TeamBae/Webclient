@@ -49,7 +49,6 @@
             }}
         />
 
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
         <span
             style="float: right;"
             class="material-symbols-outlined"

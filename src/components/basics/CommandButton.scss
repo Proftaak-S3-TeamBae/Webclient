@@ -1,0 +1,29 @@
+.cmd-button {
+    display: flex;
+    padding: 10px;
+
+    &:not(:last-child) {
+        border-bottom: 1px solid lightgray;
+    }
+
+    &:hover {
+        color: white;
+        background-color: black;
+        cursor: pointer;
+    }
+
+    >.left {
+        margin-right: 5px;
+
+        .icon {
+            font-size: 24px;
+            vertical-align: middle;
+        }
+    }
+
+    >.right {
+        .label {
+            font-weight: bold;
+        }
+    }
+}
