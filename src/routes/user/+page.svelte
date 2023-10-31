@@ -15,14 +15,8 @@
 <div class="page user">
     <NavBar />
     <ContentContainer>
-        <CenterBox>
-            <UserBox username="Max Meevis" avatarURL=""/>
-            <div class="stitle">
-                What would you like to do today?
-            </div>
-            <div class="buttons">
-                <CommandButton title="Log Off" icon="logout" description="Logs out of your current session."/>
-            </div>
-        </CenterBox>
+        <UserBox username="Max Meevis" avatarURL=""/>
+        <hr>
+        
     </ContentContainer>
 </div>

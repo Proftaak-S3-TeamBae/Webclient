@@ -8,5 +8,8 @@
 
 <div class="user-box-large">
     <div class="profile-pic" style={`background-image: url(${pfp})`}></div>
-    <div class="namebox">Hello, {username}!</div>
+    <div class="text">
+        <div class="name">{username}</div>
+        <div class="type">Administrator Account</div>
+    </div>
 </div>

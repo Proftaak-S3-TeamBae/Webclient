@@ -1,6 +1,13 @@
 // test
 
 .page.user {
+    display: flex;
+    flex-direction: column;
+
+    .content-container {
+        flex: 1;
+    }
+
     .stitle {
         margin: 1em 0;
         text-align: center;

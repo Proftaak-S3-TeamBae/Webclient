@@ -1,19 +1,30 @@
 .user-box-large {
+    display: flex;
+    flex-direction: row;
+
     .profile-pic {
-        height: 180px;
-        width: 180px;
+        height: 64px;
+        width: 64px;
         border-radius: 100%;
         margin-bottom: 1em;
-        margin-left: auto;
-        margin-right: auto;
+        margin-right: 1em;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
 
-    .namebox {
-        font-size: 24px;
-        font-weight: bold;
-        text-align: center;
+    .text {
+        flex: 1;
+
+        >.name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 0.5em;
+        }
+
+        >.type {
+            font-size: 18px;
+            color: gray;
+        }
     }
 }
