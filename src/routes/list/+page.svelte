@@ -15,35 +15,32 @@
     
     export let data: PageData;
 
+    /**
+     * Gets an AI system logo from a string.
+     * @param logoId The ID of the logo to get the URL for.
+     */
+    function parseLogo(logoId: string) {
+        switch(logoId){
+            default:
+                return "";
+            case "OpenAI":
+                return openaiLogo;
+            case "Google":
+                return googleLogo;
+            case "AWS":
+                return awsLogo;
+        }
+
+    }
+
     // The data for the table
-    // TODO: Replace with real data from the backend
-    const headers = ["Service Name", "Type", "Description", "Date Added"];
+    const headers = ["Service Name", "Type", /* "Description", */ "Date Added"];
     const tdata = data.list.map(x => [
-        { data: x.name, icon: openaiLogo },
+        { data: x.name, icon: parseLogo(x.source) },
         { data: x.type },
-        { data: x.description },
+        // { data: x.description },
         { data: friendlyDate(new Date(x.date_added)) }
     ]);
-    // const tdata = [
-    //     [
-    //         { data: "OpenAPI GPT-3", icon: openaiLogo },
-    //         { data: "LLM" },
-    //         { data: "Customer Service" },
-    //         { data: friendlyDate(new Date()) },
-    //     ],
-    //     [
-    //         { data: "Google Bard", icon: googleLogo },
-    //         { data: "LLM" },
-    //         { data: "AI ChatBot" },
-    //         { data: friendlyDate(new Date()) },
-    //     ],
-    //     [
-    //         { data: "Stable Diffusion", icon: awsLogo },
-    //         { data: "Diffusion Model" },
-    //         { data: "Icon Generation" },
-    //         { data: friendlyDate(new Date()) },
-    //     ],
-    // ];
 </script>
 
 <svelte:head>
