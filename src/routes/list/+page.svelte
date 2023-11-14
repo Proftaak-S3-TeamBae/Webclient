@@ -12,6 +12,7 @@
     import ToolBarSpacer from "../../components/basics/ToolBarSpacer.svelte";
     import ToolBar from "../../components/basics/ToolBar.svelte";
     import WizardButton from "../../components/basics/buttons/WizardButton.svelte";
+    import Paginator from '../../components/layout/Paginator.svelte';
     
     export let data: PageData;
 
@@ -35,7 +36,7 @@
 
     // The data for the table
     const headers = ["Service Name", "Type", /* "Description", */ "Date Added"];
-    const tdata = data.list.map(x => [
+    const tdata = data.list.data.map(x => [
         { data: x.name, icon: parseLogo(x.source) },
         { data: x.type },
         // { data: x.description },
@@ -61,6 +62,8 @@
             <ToolBarItem icon="delete" label="Remove" disabled={true}/>
         </ToolBar>
         <Table addCheckBoxes={true} {headers} data={tdata} />
+        <Paginator currentPage={data.list.currentPage} pageCount={data.list.totalPages}
+            onChange = {(page)=>void (window.location.href = `/list?page=${page}`)}/>
         <div class="button-group">
             <WizardButton color="primary"
                 >Register Service</WizardButton

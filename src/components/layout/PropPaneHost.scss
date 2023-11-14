@@ -1,0 +1,14 @@
+.proppane-host {
+    height: 100%;
+    width: 100%;
+    display: flex;
+
+    .left {
+        margin-right: 1em;
+        border-right: 1px solid gray;
+    }
+
+    .right {
+        flex: 1;
+    }
+}

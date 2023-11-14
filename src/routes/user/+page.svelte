@@ -5,6 +5,8 @@
     import CommandButton from "../../components/basics/CommandButton.svelte";
     import CenterBox from "../../components/layout/CenterBox.svelte";
     import "./UserPage.scss";
+    import PropPaneHost from "../../components/layout/PropPaneHost.svelte";
+    import { SvelteComponent } from "svelte";
 </script>
 
 <svelte:head>
@@ -17,6 +19,8 @@
     <ContentContainer>
         <UserBox username="Max Meevis" avatarURL=""/>
         <hr>
-        
+        <PropPaneHost pages={[
+            { label: "Testing", icon: "folder" }
+        ]}/>
     </ContentContainer>
 </div>
