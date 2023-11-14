@@ -1,6 +1,6 @@
 <script lang="ts">
     import "./Integrations.scss";
-    import { friendlyDate } from "../../util/DateFormatter";
+    import { friendlyDate } from "$lib/util/DateFormatter";
     import ContentContainer from "../../components/basics/ContentContainer.svelte";
     import NavBar from "../../components/layout/NavBar.svelte";
     import Table from "../../components/basics/Table.svelte";
