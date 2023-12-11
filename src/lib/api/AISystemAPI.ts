@@ -7,10 +7,11 @@ import type { PagedAPIResponse } from "./PagedAPIResponse";
  * @returns A list of AI models.
  */
 export async function getAISystemModels(page: number = 0): Promise<PagedAPIResponse<AISystemModel[]>> {
-    const req = await fetch(`${APISourceURLs.aiSystemAPI}/AiSystem?page=${page}`);
+    // const req = await fetch(`${APISourceURLs.aiSystemAPI}/AiSystem/scan?page=${page}`);
 
-    if(!req.ok)
-        throw new Error("Request failure!");
+    // if(!req.ok)
+    //     throw new Error("Request failure!");
 
-    return await req.json();
+    // return await req.json();
+    return { currentPage: 0, totalPages: 0, data: [] };
 }

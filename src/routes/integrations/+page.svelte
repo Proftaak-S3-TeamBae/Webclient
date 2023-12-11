@@ -24,21 +24,21 @@
     // TODO: Replace with real data from the backend
     const headers = ["Integration", "Status", "Date Added"];
     const data = [
-        [
-            { data: "OpenAI", icon: openaiIcon },
-            { data: "Linked" },
-            { data: friendlyDate(new Date()) },
-        ],
-        [
-            { data: "Google", icon: googleIcon },
-            { data: "Linked" },
-            { data: friendlyDate(new Date()) },
-        ],
-        [
-            { data: "AWS", icon: awsIcon },
-            { data: "Linked" },
-            { data: friendlyDate(new Date()) },
-        ],
+        // [
+        //     { data: "OpenAI", icon: openaiIcon },
+        //     { data: "Linked" },
+        //     { data: friendlyDate(new Date()) },
+        // ],
+        // [
+        //     { data: "Google", icon: googleIcon },
+        //     { data: "Linked" },
+        //     { data: friendlyDate(new Date()) },
+        // ],
+        // [
+        //     { data: "AWS", icon: awsIcon },
+        //     { data: "Linked" },
+        //     { data: friendlyDate(new Date()) },
+        // ],
     ];
 </script>
 

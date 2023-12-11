@@ -3,13 +3,13 @@
     import "./Table.scss";
 
     /// Table headers
-    interface TabelData {
+    interface TableData {
         data: any;
         icon?: string;
     }
 
     export let headers: string[];
-    export let data: TabelData[][] = [];
+    export let data: TableData[][] = [];
     export let addCheckBoxes: boolean = false;
 
     // Checked items state
@@ -72,4 +72,8 @@
             {/each}
         </div>
     {/each}
+
+    {#if data.length == 0}
+        <div class="notice">No data.</div>
+    {/if}
 </div>

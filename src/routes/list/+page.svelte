@@ -24,7 +24,7 @@
         switch(logoId){
             default:
                 return "";
-            case "OpenAI":
+            case "OpenAi":
                 return openaiLogo;
             case "Google":
                 return googleLogo;
