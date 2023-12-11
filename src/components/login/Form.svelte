@@ -1,24 +1,35 @@
 <script>
-    import Field from "../basics/Field.svelte";
-    import FormButton from "../basics/FormButton.svelte";
-    import "./Form.scss";
+  import { loginAccount } from "$lib/api/AuthAPI";
+  import Field from "../basics/Field.svelte";
+  import FormButton from "../basics/FormButton.svelte";
+  import PasswordField from "../basics/PasswordField.svelte";
+  import "./Form.scss";
+
+  let username = "";
+  let password = "";
+
+  const confirm = async () => {
+    await loginAccount(username, password);
+    window.location.href = "/list";
+  };
 </script>
 
 <div class="form">
-    <Field label="Username" type="text" name="username" />
-    <Field label="Password" type="password" name="password" />
+  <Field label="Username" type="text" name="username" bind:value={username} />
+  <PasswordField
+    label="Password"
+    name="password"
+    bind:value={password}
+    checkPasswordStrength={false}
+  />
 
-    <div class="buttons">
-        <FormButton
-            label="Log In"
-            filled={true}
-            onClick={() => (window.location.href = "/list")}
-        />
+  <div class="buttons">
+    <FormButton label="Log In" filled={true} onClick={confirm} />
 
-        <FormButton
-            label="Create Account"
-            filled={false}
-            onClick={() => (window.location.href = "/register")}
-        />
-    </div>
+    <FormButton
+      label="Create Account"
+      filled={false}
+      onClick={() => (window.location.href = "/register")}
+    />
+  </div>
 </div>
