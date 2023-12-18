@@ -12,6 +12,14 @@ export async function isLoggedIn(): Promise<boolean> {
 }
 
 /**
+ * Get the JWT token of the current account
+ * @returns The JWT token of the current account  
+ */
+export function getToken(): string | null {
+    return sessionStorage.getItem("jwttoken");
+}
+
+/**
  * Fetches a resource from the AI System API with authentication.
  * Will fail if the token is timed out, and will redirect to the login page.
  * @param input The URL to fetch

@@ -14,8 +14,50 @@
   import WizardButton from "../../components/basics/buttons/WizardButton.svelte";
   import Paginator from "../../components/layout/Paginator.svelte";
   import AuthGuard from "../../components/auth/AuthGuard.svelte";
+  import { onMount } from "svelte";
+  import { fetchAuthenticated, getToken } from "$lib/api/AuthAPI";
+  import type { PagedAPIResponse } from "$lib/api/PagedAPIResponse";
+  import type { AISystemModel } from "$lib/types/api/AISystemModel";
+  import { APISourceURLs } from "$lib/api/APISource";
 
-  export let data: PageData;
+  export let data: PagedAPIResponse<AISystemModel[]>;
+
+  // Get the page index from the URL
+  function getPageIndex(): number {
+    const urlParams = new URLSearchParams(window.location.search);
+    const page = urlParams.get("page");
+    if (!page) {
+      return 0;
+    }
+    return parseInt(page);
+  }
+
+  // Fetch the data foronMount( the page
+  async function fetchData(): Promise<any[][]> {
+    const pageIndex = getPageIndex();
+    const token = getToken();
+    if (!token) {
+      return Promise.reject("No token");
+    }
+    const response = await fetchAuthenticated(
+      `${APISourceURLs.aiSystemAPI}/aisystem/approved`,
+      token
+    );
+    if (response === undefined || !response.ok) {
+      return Promise.reject("Failed to fetch data");
+    }
+    data = await response.json();
+    const mapped = data.map((x) => [
+      { data: x.name, icon: parseLogo(x.integration) },
+      { data: x.version },
+      { data: x.type },
+      { data: x.description },
+      { data: x.origin },
+      // { data: x.description },
+      { data: friendlyDate(new Date(x.dateAdded)) },
+    ]);
+    return mapped;
+  }
 
   /**
    * Gets an AI system logo from a string.
@@ -35,13 +77,19 @@
   }
 
   // The data for the table
-  const headers = ["Service Name", "Type", /* "Description", */ "Date Added"];
-  const tdata = data.list.data.map((x) => [
-    { data: x.name, icon: parseLogo(x.source) },
-    { data: x.type },
-    // { data: x.description },
-    { data: friendlyDate(new Date(x.date_added)) },
-  ]);
+  const headers = [
+    "Service Name",
+    "Version",
+    "Type",
+    "Description",
+    "Origin",
+    "Date Added",
+  ];
+  let tdata: any[][] = [];
+
+  onMount(async () => {
+    tdata = await fetchData();
+  });
 </script>
 
 <svelte:head>
@@ -62,8 +110,8 @@
       </ToolBar>
       <Table addCheckBoxes={true} {headers} data={tdata} />
       <Paginator
-        currentPage={data.list.currentPage}
-        pageCount={data.list.totalPages}
+        currentPage={data.currentPage}
+        pageCount={data.totalPages}
         onChange={(page) => void (window.location.href = `/list?page=${page}`)}
       />
       <div class="button-group">
