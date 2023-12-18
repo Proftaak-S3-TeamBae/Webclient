@@ -34,26 +34,46 @@
     }
 
     .col {
+        // Make sure the items are horizontally centered
         display: flex;
+        justify-content: left;
 
-        .label {
-            vertical-align: middle;
-            margin-top: auto;
-            margin-bottom: auto;
+        >* {
             flex: 1;
+            padding: 5px;
         }
 
-        .icon {
-            display: inline-block;
-            margin-top: auto;
-            margin-bottom: auto;
-            margin-right: 0.5rem;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            border-radius: 8px;
-            height: 32px;
-            width: 32px;
+        &.clickable {
+            &:hover {
+                background-color: #eee;
+            }
+            &:active {
+                background-color: #ccc;
+            }
+        }
+
+        .item {
+            display: flex;
+    
+            .label {
+                vertical-align: middle;
+                margin-top: auto;
+                margin-bottom: auto;
+                flex: 1;
+            }
+    
+            .icon {
+                display: inline-block;
+                margin-top: auto;
+                margin-bottom: auto;
+                margin-right: 0.5rem;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+                border-radius: 8px;
+                height: 32px;
+                width: 32px;
+            }
         }
     }
 

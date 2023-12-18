@@ -58,8 +58,8 @@ export async function checkToken(token: string): Promise<boolean> {
             "Authorization": `Bearer ${token}`
         },
     }); 
-    if (response.status === 401)
-        throw new Error("Timeout");
+    if (response.status === 401) 
+        return false;
     if (!response.ok)
         throw new Error("Request failure!");
     return true;
@@ -119,7 +119,8 @@ export function logoutAccount(): void {
     const token = sessionStorage.getItem("jwttoken");
     if (!token)
         return;
-    sessionStorage.removeItem("jwttoken");
+    // Clear session storage
+    sessionStorage.clear();
     window.location.href = "/";
 }
 
@@ -139,6 +140,6 @@ export async function getUsername(): Promise<string> {
         },
     }) as Response; 
     if (!response.ok)
-        throw new Error("Request failure!");
+        throw new Error("Request failure: " + response.status);
     return await response.text();
 }

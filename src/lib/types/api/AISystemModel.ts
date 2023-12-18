@@ -1,7 +1,9 @@
 export interface AISystemModel {
     name: string;
-    type: "LLM" | string;
-    source: "OpenAI" | string;
+    type: string;
+    integration: string;
+    version: string;
+    origin: string;
     description: string;
-    date_added: string;
+    dateAdded: string;
 }

@@ -1,10 +1,14 @@
 <script lang="ts">
-    import Field from "../basics/Field.svelte";
-    import InputField from "../basics/InputField.svelte";
+  import Field from "../basics/Field.svelte";
+  import InputField from "../basics/InputField.svelte";
 
-    let apikey: string = "";
+  export let data: any;
+  const onInputChange = (e: any) => {
+    data = { ...data };
+    data["openAiKey"] = e.target.value;
+  };
 </script>
 
 <InputField label="API Key"
-    ><Field type="text" name="apikey" bind:value={apikey} /></InputField
+  ><Field type="text" name="apikey" oninput={onInputChange} /></InputField
 >

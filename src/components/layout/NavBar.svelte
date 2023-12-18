@@ -14,6 +14,7 @@
 <div class="nav-bar">
   <div class="title">AI Scanner</div>
   <div class="links">
+    <a href="/scanner">Scanner</a>
     <a href="/list">My Services</a>
     <a href="/integrations">Integrations</a>
     <a href="/settings">Settings</a>

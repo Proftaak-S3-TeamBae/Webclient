@@ -19,8 +19,9 @@
   import type { PagedAPIResponse } from "$lib/api/PagedAPIResponse";
   import type { AISystemModel } from "$lib/types/api/AISystemModel";
   import { APISourceURLs } from "$lib/api/APISource";
+  import { parseLogo } from "$lib/util/Lists";
 
-  export let data: PagedAPIResponse<AISystemModel[]>;
+  export let data: PagedAPIResponse<AISystemModel>;
 
   // Get the page index from the URL
   function getPageIndex(): number {
@@ -40,40 +41,22 @@
       return Promise.reject("No token");
     }
     const response = await fetchAuthenticated(
-      `${APISourceURLs.aiSystemAPI}/aisystem/approved`,
+      `${APISourceURLs.aiSystemAPI}/aisystem/approved?page=${pageIndex}`,
       token
     );
     if (response === undefined || !response.ok) {
       return Promise.reject("Failed to fetch data");
     }
     data = await response.json();
-    const mapped = data.map((x) => [
+    const mapped = data.data.map((x) => [
       { data: x.name, icon: parseLogo(x.integration) },
       { data: x.version },
       { data: x.type },
       { data: x.description },
       { data: x.origin },
-      // { data: x.description },
       { data: friendlyDate(new Date(x.dateAdded)) },
     ]);
     return mapped;
-  }
-
-  /**
-   * Gets an AI system logo from a string.
-   * @param logoId The ID of the logo to get the URL for.
-   */
-  function parseLogo(logoId: string) {
-    switch (logoId) {
-      default:
-        return "";
-      case "OpenAi":
-        return openaiLogo;
-      case "Google":
-        return googleLogo;
-      case "AWS":
-        return awsLogo;
-    }
   }
 
   // The data for the table
