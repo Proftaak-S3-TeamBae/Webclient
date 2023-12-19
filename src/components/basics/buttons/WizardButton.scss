@@ -37,12 +37,21 @@
     }
 
     // Color themes
+    &.none {}
     &.primary {
         background-color: black;
         color: white;
 
         &:hover {
             background-color: rgb(16, 16, 16);
+        }
+    }
+    &.dangerous {
+        background-color: #FF4D4F;
+        color: white;
+
+        &:hover {
+            background-color: #FF7875;
         }
     }
 }

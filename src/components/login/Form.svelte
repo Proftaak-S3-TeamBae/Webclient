@@ -9,7 +9,12 @@
   let password = "";
 
   const confirm = async () => {
-    await loginAccount(username, password);
+    try {
+      await loginAccount(username, password);
+    } catch (e) {
+      window.location.href = "/error?msg=" + window.btoa(JSON.stringify(e));
+      return;
+    }
     window.location.href = "/list";
   };
 </script>

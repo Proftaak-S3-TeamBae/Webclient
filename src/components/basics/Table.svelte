@@ -15,7 +15,7 @@
   export let onItemClicked: (index: number) => void = () => void 0;
 
   // Checked items state
-  let checkedItems: boolean[] = data.map(() => false);
+  export let checkedItems: boolean[] = data.map(() => false);
 
   function getRowClass(i: number) {
     return i % 2 == 0 ? "even" : "odd";
@@ -41,7 +41,7 @@
     <div class={"row " + getRowClass(i)}>
       {#if addCheckBoxes}
         <div class="cbox-cell">
-          <CheckBox checked={checkedItems[i]} />
+          <CheckBox bind:checked={checkedItems[i]} />
         </div>
       {/if}
       <!-- svelte-ignore a11y-click-events-have-key-events -->

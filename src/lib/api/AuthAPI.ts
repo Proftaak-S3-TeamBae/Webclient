@@ -26,22 +26,19 @@ export function getToken(): string | null {
  * @param init The fetch init object
  * @param token The JWT token to use
  */
-export async function fetchAuthenticated(input: RequestInfo | URL, token: string, init?: RequestInit | undefined): Promise<Response | undefined> { 
+export async function fetchAuthenticated(input: RequestInfo | URL, token: string, init?: RequestInit | undefined): Promise<Response> { 
     if (!checkToken(token)) {
         window.location.href = "/timeout";
-        return undefined;
+        return Promise.reject("Token timed out")
     }
 
-    const response = await fetch(input, {
+    return await fetch(input, {
         ...init,
         headers: {
             ...init?.headers,
             "Authorization": `Bearer ${token}`
         }
     });
-    if (!response.ok)
-        throw new Error("Request failure!");
-    return response;
 }
 
 /**

@@ -2,7 +2,7 @@
   import "./Field.scss";
 
   export let label: string | undefined = undefined;
-  export let type: string;
+  export let type: string | "textarea";
   export let name: string;
   export let value: string = "";
   export let oninput: (event: Event) => void | undefined = () => void 0;
@@ -19,5 +19,9 @@
   {#if label !== undefined}
     <div class="label">{label}</div>
   {/if}
-  <input {type} {name} {value} on:input={oninputchange} />
+  {#if type == "textarea"}
+    <textarea {name} {value} on:input={oninputchange} />
+  {:else}
+    <input {type} {name} {value} on:input={oninputchange} />
+  {/if}
 </div>

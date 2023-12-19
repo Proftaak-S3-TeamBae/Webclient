@@ -16,7 +16,6 @@
   <div class="links">
     <a href="/scanner">Scanner</a>
     <a href="/list">My Services</a>
-    <a href="/integrations">Integrations</a>
     <a href="/settings">Settings</a>
   </div>
   {#await username then username}

@@ -7,11 +7,16 @@
   var loggedIn = false;
 
   onMount(async () => {
-    if (await isLoggedIn()) {
-      loggedIn = true;
-      return;
+    try {
+      if (await isLoggedIn()) {
+        loggedIn = true;
+        return;
+      }
+      window.location.href = "/login";
+    } catch (e) {
+      // Go to error page and encode message in base32
+      window.location.href = "/error?msg=" + window.btoa(JSON.stringify(e));
     }
-    window.location.href = "/login";
   });
 </script>
 

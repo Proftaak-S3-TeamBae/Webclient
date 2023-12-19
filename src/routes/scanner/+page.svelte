@@ -17,10 +17,11 @@
   import type { AISystemModel } from "$lib/types/api/AISystemModel";
   import { fetchAuthenticated, getToken } from "$lib/api/AuthAPI";
   import { APISourceURLs } from "$lib/api/APISource";
-  import { onMount } from "svelte";
   import type { PagedAPIResponse } from "$lib/api/PagedAPIResponse";
   import Paginator from "../../components/layout/Paginator.svelte";
   import Field from "../../components/basics/Field.svelte";
+  import ErrorOverlay from "../../components/error/ErrorOverlay.svelte";
+  import SelectMenu from "../../components/basics/SelectMenu.svelte";
 
   /// The data for an integration
   interface Integration {
@@ -62,6 +63,10 @@
     dateAdded: "",
   };
 
+  let errorOverlay = false;
+  let confirmationOverlay = false;
+  let discardConfirmationOverlay = false;
+
   // The scan results
   let results: PagedAPIResponse<AISystemModel> = {
     data: [],
@@ -72,11 +77,19 @@
   // The page index
   let pageIndex = 0;
 
+  /// Censor the API key
+  function censorApiKey(key: string): string {
+    return `${key.substring(0, 3)}...${key.substring(key.length - 4)}`;
+  }
+
   /// Add the integration based on the current input
   function onConfirmAddIntegration(integrationType: string) {
     integrationOverlay = false;
     if (integrationType === "OpenAI") {
-      integrations.push({ type: "OpenAi", data: input });
+      integrations.push({
+        type: "OpenAi",
+        data: input["openAiKey"],
+      });
     }
     integrationData = getIntegrationData();
   }
@@ -85,7 +98,7 @@
   function getIntegrationData(): any[][] {
     return integrations.map((x) => [
       { data: x.type, icon: parseLogo(x.type) },
-      { data: x.data.openAiKey },
+      { data: censorApiKey(x.data) },
     ]);
   }
 
@@ -101,26 +114,35 @@
       return Promise.reject("No token");
     }
 
-    // Remove the system from the results
-    results.data.splice(systemIndex, 1);
-    resultsData = results.data.map((d) => [
-      { data: d.name, icon: parseLogo(d.integration) },
-      { data: d.version },
-      { data: d.type },
-      { data: d.origin },
-    ]);
-
-    await fetchAuthenticated(
-      `${APISourceURLs.aiSystemAPI}/aisystem/approve`,
-      token,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify([system]),
+    try {
+      const response = await fetchAuthenticated(
+        `${APISourceURLs.aiSystemAPI}/aisystem/approve`,
+        token,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify([system]),
+        }
+      );
+      if (response !== undefined && !response.ok) {
+        errorOverlay = true;
+        console.log("error");
+        return;
       }
-    );
+      // Remove the system from the results
+      results.data.splice(systemIndex, 1);
+      resultsData = results.data.map((d) => [
+        { data: d.name, icon: parseLogo(d.integration) },
+        { data: d.version },
+        { data: d.type },
+        { data: d.origin },
+      ]);
+      confirmationOverlay = true;
+    } catch (e) {
+      errorOverlay = true;
+    }
   }
 
   /// Discard the system based on the current input
@@ -132,26 +154,35 @@
       return Promise.reject("No token");
     }
 
-    // Remove the system from the results
-    results.data.splice(systemIndex, 1);
-    resultsData = results.data.map((d) => [
-      { data: d.name, icon: parseLogo(d.integration) },
-      { data: d.version },
-      { data: d.type },
-      { data: d.origin },
-    ]);
-
-    await fetchAuthenticated(
-      `${APISourceURLs.aiSystemAPI}/aisystem/disapprove`,
-      token,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify([system]),
+    try {
+      const response = await fetchAuthenticated(
+        `${APISourceURLs.aiSystemAPI}/aisystem/disapprove`,
+        token,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify([system]),
+        }
+      );
+      if (response !== undefined && !response.ok) {
+        errorOverlay = true;
+        return Promise.reject("Failed to fetch data");
       }
-    );
+
+      // Remove the system from the results
+      results.data.splice(systemIndex, 1);
+      resultsData = results.data.map((d) => [
+        { data: d.name, icon: parseLogo(d.integration) },
+        { data: d.version },
+        { data: d.type },
+        { data: d.origin },
+      ]);
+      discardConfirmationOverlay = false;
+    } catch (e) {
+      errorOverlay = true;
+    }
   }
 
   /// Scan the services for AI systems
@@ -162,34 +193,40 @@
     }
     const openAIKeys = integrations
       .filter((x) => x.type === "OpenAi")
-      .map((x) => x.data.openAiKey);
-    const response = await fetchAuthenticated(
-      `${APISourceURLs.aiSystemAPI}/aisystem/scan`,
-      token,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          OpenAiTokens: openAIKeys,
-          page: pageIndex,
-          max: 10,
-        }),
+      .map((x) => x.data);
+    try {
+      const response = await fetchAuthenticated(
+        `${APISourceURLs.aiSystemAPI}/aisystem/scan`,
+        token,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify({
+            OpenAiTokens: openAIKeys,
+            page: pageIndex,
+            max: 10,
+          }),
+        }
+      );
+      if (response === undefined || !response.ok) {
+        errorOverlay = true;
+        return Promise.reject("Failed to fetch data");
       }
-    );
-    if (response === undefined || !response.ok) {
+      const data = await response.json();
+      results = data;
+      resultsData = data.data.map((d: any) => [
+        { data: d.name, icon: parseLogo(d.integration) },
+        { data: d.version },
+        { data: d.type },
+        { data: d.origin },
+      ]);
+      return data;
+    } catch {
+      errorOverlay = true;
       return Promise.reject("Failed to fetch data");
     }
-    const data = await response.json();
-    results = data;
-    resultsData = data.data.map((d: any) => [
-      { data: d.name, icon: parseLogo(d.integration) },
-      { data: d.version },
-      { data: d.type },
-      { data: d.origin },
-    ]);
-    return data;
   }
 </script>
 
@@ -200,7 +237,6 @@
 
 <AuthGuard>
   <NavBar />
-
   <ContentContainer>
     <h3>Scanner</h3>
     <p>
@@ -303,20 +339,66 @@
         bind:value={systemInput.description}
       ></Field></InputField
     >
-    <div style="float: right; margin-top: 1rem; margin-bottom: 0;">
-      <WizardButton
-        color="primary"
-        onPress={() => onConfirmAddSystem(systemInput, systemIndex)}
-        >Add</WizardButton
-      >
-      <WizardButton
-        color="none"
-        onPress={() => onDiscardSystem(systemInput, systemIndex)}
-        >Discard</WizardButton
-      >
-      <WizardButton color="none" onPress={() => (systemOverlay = false)}
-        >Cancel</WizardButton
-      >
+    <div style="margin-top: 1rem; margin-bottom: 0;">
+      <div style="float:left">
+        <WizardButton
+          color="primary"
+          onPress={() => onConfirmAddSystem(systemInput, systemIndex)}
+          >Add</WizardButton
+        >
+        <WizardButton color="none" onPress={() => (systemOverlay = false)}
+          >Cancel</WizardButton
+        >
+      </div>
+      <div style="float:right">
+        <WizardButton
+          color="dangerous"
+          onPress={() => {
+            systemOverlay = false;
+            discardConfirmationOverlay = true;
+          }}>Discard</WizardButton
+        >
+      </div>
     </div>
   </Overlay>
+
+  <!-- The overlay for indicating the success of added a system to the list -->
+  <Overlay
+    name="Success"
+    behavior="hide-on-outside-click"
+    bind:shown={confirmationOverlay}
+  >
+    <p>System successfully added</p>
+    <div style="margin-top: 1rem; margin-bottom: 0;">
+      <div style="float:left">
+        <WizardButton color="none" onPress={() => (confirmationOverlay = false)}
+          >Close</WizardButton
+        >
+      </div>
+    </div>
+  </Overlay>
+
+  <!-- The overlay for confirmation of discarding a system -->
+  <Overlay
+    name="Confirm Deletion"
+    behavior="hide-on-outside-click"
+    bind:shown={discardConfirmationOverlay}
+  >
+    <p>Are you sure you want to discard</p>
+    <div style="margin-top: 1rem; margin-bottom: 0;">
+      <div style="float:right">
+        <WizardButton color="primary" onPress={() => (systemOverlay = false)}
+          >Cancel</WizardButton
+        >
+        <WizardButton
+          color="dangerous"
+          onPress={() => onDiscardSystem(systemInput, systemIndex)}
+          >Discard</WizardButton
+        >
+      </div>
+    </div>
+  </Overlay>
+
+  <!-- The error overlay -->
+  <ErrorOverlay bind:shown={errorOverlay} />
 </AuthGuard>

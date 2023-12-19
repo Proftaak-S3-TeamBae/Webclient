@@ -44,8 +44,11 @@
         }
 
         &.clickable {
+            cursor: pointer;
+            user-select: none;
+            
             &:hover {
-                background-color: #eee;
+                background-color: #aaa;
             }
             &:active {
                 background-color: #ccc;

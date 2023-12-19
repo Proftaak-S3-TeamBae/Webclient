@@ -1,9 +1,10 @@
 <script lang="ts">
-    import "./ToolBarItem.scss";
+  import "./ToolBarItem.scss";
 
-    export let icon: string = "";
-    export let label: string = "Untitled";
-    export let disabled: boolean = false;
+  export let icon: string = "";
+  export let label: string = "Untitled";
+  export let disabled: boolean = false;
+  export let onPress: () => void = () => {};
 </script>
 
 <!-- Myman is still going 
@@ -26,9 +27,17 @@ Hebben wij fontawesome?
 Nvm we hebben material icons, ook goed
 
 -->
-<div class={"item" + (disabled ? ' disabled' : '')} role="button">
-    {#if icon != ""}
-        <span class={`material-symbols-outlined icon`}>{icon}</span>
-    {/if}
-    <span class="name">{label}</span>
+<!-- svelte-ignore a11y-interactive-supports-focus -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<div
+  class={"item" + (disabled ? " disabled" : "")}
+  role="button"
+  on:click={() => {
+    if (!disabled) onPress();
+  }}
+>
+  {#if icon != ""}
+    <span class={`material-symbols-outlined icon`}>{icon}</span>
+  {/if}
+  <span class="name">{label}</span>
 </div>
