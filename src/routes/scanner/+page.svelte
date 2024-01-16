@@ -244,9 +244,11 @@
         href="/list">My Services</a
       > list
     </p>
+    <hr />
 
     <b>Integrations</b>
     <p>Here you can manage external connections for use as scanning sources.</p>
+
     <Table headers={integrationHeaders} data={integrationData}></Table>
 
     <div class="button-group">
@@ -259,7 +261,7 @@
       <WizardButton color="none" onPress={() => (integrationOverlay = true)}
         >Add Integration</WizardButton
       >
-      <Divider />
+      <hr />
       <b>Results</b>
       <p>The results of the scan</p>
       <Table
@@ -303,6 +305,8 @@
     <hr />
     {#if integrationTypeChoice !== undefined && integrationTypeChoice.label === "OpenAI"}
       <OpenAiConf bind:data={input} />
+    {:else}
+      <p>Not implemented</p>
     {/if}
     <hr />
     <div style="float: right; margin-top: 1rem; margin-bottom: 0;">

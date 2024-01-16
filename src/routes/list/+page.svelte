@@ -21,6 +21,7 @@
   import InputField from "../../components/basics/InputField.svelte";
   import Field from "../../components/basics/Field.svelte";
   import Divider from "../../components/basics/Divider.svelte";
+  import ErrorOverlay from "../../components/error/ErrorOverlay.svelte";
 
   export let data: PagedAPIResponse<AISystemModel>;
   let checkedItems: boolean[] = [];
@@ -29,6 +30,12 @@
   let editingOverlay = false;
   // The systems being editeds
   let editingSystems: { index: number; system: AISystemModel }[] = [];
+
+  // The confirm deletion overlay state
+  let confirmDeletationOverlay = false;
+
+  // The error overlay state
+  let errorOverlay = false;
 
   // The data for the table
   const headers = [
@@ -86,9 +93,10 @@
   async function removeAiSystems(systems: AISystemModel[]) {
     const token = getToken();
     if (!token) {
+      errorOverlay = true;
       return Promise.reject("No token");
     }
-    await fetchAuthenticated(
+    const result = await fetchAuthenticated(
       `${APISourceURLs.aiSystemAPI}/aisystem/remove`,
       token,
       {
@@ -99,6 +107,10 @@
         body: JSON.stringify(systems),
       }
     );
+    if (!result.ok) {
+      errorOverlay = true;
+      return Promise.reject("Server error");
+    }
     // Remove the systems from the results
     data.data = data.data.filter((x) => !systems.includes(x));
     tdata = data.data.map((x) => [
@@ -122,9 +134,10 @@
     editingOverlay = false;
     const token = getToken();
     if (!token) {
+      errorOverlay = true;
       return Promise.reject("No token");
     }
-    await fetchAuthenticated(
+    const result = await fetchAuthenticated(
       `${APISourceURLs.aiSystemAPI}/aisystem/approve`,
       token,
       {
@@ -135,6 +148,10 @@
         body: JSON.stringify(systems.map((x) => x.system)),
       }
     );
+    if (!result.ok) {
+      errorOverlay = true;
+      return Promise.reject("Server error");
+    }
     editingOverlay = false;
     // Update the data
     data.data = data.data.map((x, i) => {
@@ -167,6 +184,7 @@
     <ContentContainer>
       <h3>My Services</h3>
       <p>Here you can view all of your active AI services and their purpose.</p>
+      <hr />
       <ToolBar>
         <ToolBarSpacer />
         <ToolBarItem
@@ -179,6 +197,9 @@
               let item = data.data[i];
               if (checkedItems[i]) items.push({ index: i, system: item });
             }
+            if (items.length === 0) {
+              return;
+            }
             editingSystems = items;
             editingOverlay = true;
           }}
@@ -188,8 +209,7 @@
           label="Remove"
           disabled={false}
           onPress={() => {
-            const items = data.data.filter((x, i) => checkedItems[i]);
-            removeAiSystems(items);
+            confirmDeletationOverlay = true;
           }}
         />
       </ToolBar>
@@ -200,7 +220,12 @@
         onChange={(page) => void (window.location.href = `/list?page=${page}`)}
       />
       <div class="button-group">
-        <WizardButton color="primary">Register Service</WizardButton>
+        <WizardButton
+          onPress={() => {
+            window.location.href = "/scanner";
+          }}
+          color="primary">Register Services</WizardButton
+        >
       </div>
     </ContentContainer>
 
@@ -247,5 +272,37 @@
         </div>
       </div>
     </Overlay>
+
+    <!-- Confirm deletion overlay -->
+    <Overlay
+      name="Confirm Delete"
+      behavior="hide-on-outside-click"
+      bind:shown={confirmDeletationOverlay}
+    >
+      <p>
+        Are you sure you want to delete {checkedItems.filter((value) => value)
+          .length} items?
+      </p>
+      <div style="margin-top: 1rem; margin-bottom: 0;">
+        <div style="float:right">
+          <WizardButton
+            color="primary"
+            onPress={() => (confirmDeletationOverlay = false)}
+            >Cancel</WizardButton
+          >
+          <WizardButton
+            color="dangerous"
+            onPress={() => {
+              const items = data.data.filter((x, i) => checkedItems[i]);
+              removeAiSystems(items);
+              confirmDeletationOverlay = false;
+            }}>Delete</WizardButton
+          >
+        </div>
+      </div>
+    </Overlay>
+
+    <!-- The error overlay -->
+    <ErrorOverlay bind:shown={errorOverlay} />
   </div>
 </AuthGuard>
